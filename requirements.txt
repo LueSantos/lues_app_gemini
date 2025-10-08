@@ -1,0 +1,41 @@
+# ---------------------------
+# Interface
+streamlit
+
+# ---------------------------
+# Manipulacao de dados
+pandas
+numpy
+
+# ---------------------------
+# Visualizacao
+matplotlib
+seaborn
+plotly
+
+# ---------------------------
+# Machine Learning basico (clusters, outliers, etc.)
+scikit-learn
+
+# ---------------------------
+# LangChain nucleo
+langchain
+langchain-community
+
+# Integracao com Google Gemini
+langchain-google-genai
+
+# ---------------------------
+# Embeddings e memoria
+faiss-cpu
+sentence-transformers
+
+# ---------------------------
+# Utilitarios
+python-dotenv
+
+# ---------------------------
+# Exportacao e relatorios (para etapa final PDF)
+openpyxl
+xlsxwriter
+reportlab

@@ -1,0 +1,6 @@
+import env
+
+
+env.py
+.env
+GOOGLE_API_KEY="AIzaSyCff1BRN-EyGkYPaFOL0pfdhLhtCadk_TI"

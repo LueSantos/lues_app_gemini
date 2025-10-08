@@ -1,0 +1,15 @@
+services:
+  eda-ai:
+    build: .
+    image: eda-ai
+    container_name: eda-ai
+    ports:
+      - "8501:8501"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./data:/app/data
+      - ./artifacts:/app/artifacts
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
