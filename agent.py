@@ -3,11 +3,10 @@ from typing import Tuple, List
 import pandas as pd
 
 
-
 from langchain_google_genai import ChatGoogleGenerativeAI
-
 from langchain.prompts import ChatPromptTemplate
-clear 
+os.system('clear')
+
 from tools import (
     plot_histogram,
     plot_boxplot,
