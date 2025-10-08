@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv() 
 
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_vertexai import ChatVertexAI
 from langchain.prompts import ChatPromptTemplate
 os.system('clear')
 
@@ -21,7 +21,7 @@ from memory import add_interaction_to_memory, query_memory
 # Configuração do modelo
 LLM_MODEL = os.getenv("LLM_MODEL", "gemini-pro")  # Ou outro modelo do Gemini
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")  # Certifique-se de ter a chave de API no seu ambiente
-llm = ChatGoogleGenerativeAI(model=LLM_MODEL, temperature=0)
+llm = ChatVertexAI(model_name=LLM_MODEL, temperature=0)
 
 # Prompt para decidir qual ferramenta usar
 DECISION_PROMPT = """

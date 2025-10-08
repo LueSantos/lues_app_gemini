@@ -39,3 +39,6 @@ python-dotenv
 openpyxl
 xlsxwriter
 reportlab
+
+
+langchain-google-vertexai
