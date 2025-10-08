@@ -1,7 +1,9 @@
 import os
 from typing import Tuple, List
 import pandas as pd
+from dotenv import load_dotenv
 
+load_dotenv() 
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
@@ -23,20 +25,20 @@ llm = ChatGoogleGenerativeAI(model=LLM_MODEL, google_api_key=GOOGLE_API_KEY, tem
 
 # Prompt para decidir qual ferramenta usar
 DECISION_PROMPT = """
-Você é um agente de EDA que decide qual ferramenta executar.
+Você é um agente de EDA (Análise Exploratória de Dados) que decide qual ferramenta executar para responder à pergunta do usuário.
 Contexto da memória:
 {memory}
 
 Pergunta: {question}
 
-Escolha uma das opções:
-- plot_histogram (se pedir histograma)
-- plot_boxplot (se pedir boxplot)
-- plot_correlation_heatmap (se pedir correlação)
-- cluster_kmeans (se pedir agrupamento/clustering)
-- python_repl (para QUALQUER outra análise, cálculo, resumo estatístico, intervalos etc.)
+Com base na pergunta, escolha UMA das seguintes ferramentas:
+- Se a pergunta solicitar a visualização da distribuição de uma única variável numérica, use: plot_histogram
+- Se a pergunta solicitar a identificação de outliers em uma única variável numérica, use: plot_boxplot
+- Se a pergunta solicitar a análise da relação entre múltiplas variáveis numéricas, use: plot_correlation_heatmap
+- Se a pergunta solicitar o agrupamento de dados com base em variáveis numéricas, use: cluster_kmeans
+- Se a pergunta exigir qualquer outro tipo de análise, cálculo estatístico, resumo ou manipulação de dados, use: python_repl
 
-Responda apenas com o nome da ferramenta.
+Responda APENAS com o nome da ferramenta escolhida.
 """
 
 def _get_memory_context(question: str, k: int = 3) -> str:
@@ -56,7 +58,9 @@ def _sanitize_code(code: str) -> str:
 def _explain_output(question: str, raw_output: str) -> str:
     """Usa a LLM para gerar uma explicação em português baseada na saída do código."""
     explain_prompt = f"""
-    Você é um analista de dados.
+    Você é um analista de dados experiente.
+    Com base na pergunta original do usuário e na saída do código Python, gere uma explicação concisa e clara em português para um público não técnico.
+
     Pergunta original: {question}
 
     Aqui está a saída bruta de um cálculo em pandas:
@@ -106,19 +110,19 @@ def ask_agent(question: str, df: pd.DataFrame) -> Tuple[str, List[str]]:
 
         elif "python_repl" in decision_text or "none" in decision_text:
             python_prompt = f"""
-            Você é um analista de dados.
+            Você é um analista de dados experiente, especializado em responder perguntas complexas sobre DataFrames do pandas.
+            Com base na pergunta do usuário, gere um código Python conciso e eficiente para responder à pergunta.
+
             Pergunta: {question}
 
-            Você tem acesso ao DataFrame `df` (pandas).
-            Colunas disponíveis: {list(df.columns)}
+            Informações importantes sobre o DataFrame:
+            - O DataFrame está armazenado na variável `df`.
+            - As colunas disponíveis no DataFrame são: {list(df.columns)}
 
-            Regras importantes:
-            - Use pandas diretamente para cálculos estatísticos (ex: df.mean(), df.std(), df.var()).
-            - Não use índices inexistentes em df.describe().
-            - Responda SOMENTE com código Python válido.
-            - Não escreva texto, nem comentários, nem explicações.
-            - O código deve terminar imprimindo a resposta
-              ou atribuindo a uma variável chamada result.
+             Restrições importantes:
+            - Forneça APENAS o código Python. Não inclua explicações, comentários ou qualquer outro texto.
+            - O código deve ser completo e auto-suficiente, incluindo todas as importações necessárias.
+            - O código deve imprimir o resultado final ou atribuí-lo a uma variável chamada `result`.
             """
             res = llm.invoke(python_prompt)
             code = res.content.strip() if hasattr(res, "content") else str(res).strip()
