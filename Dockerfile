@@ -20,4 +20,4 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . /app
 
 # Etapa 6: Define o comando padrão que será executado quando o container iniciar.
-CMD ["streamlit", "run", "app/app.py", "--server.port=8501"]
+CMD ["streamlit", "run", "app.py", "--server.port=8501"]
