@@ -4,10 +4,10 @@ from agent import ask_agent
 from memory import query_memory
 
 # Configuracao da pagina
-st.set_page_config(page_title="Agente Autonomo de EDA", layout="wide")
+st.set_page_config(page_title="Agente Autonomo de E.D.A", layout="wide")
 
-st.title("Agente Autônomo de EDA")
-st.markdown("Carregue um CSV e faça perguntas em linguagem natural sobre os dados.")
+st.title("Agente Autônomo de E.D.A")
+st.markdown("Carregue um CSV e faça suas pergunta sobre os dados.")
 
 # Inicializar sessão
 if "history" not in st.session_state:

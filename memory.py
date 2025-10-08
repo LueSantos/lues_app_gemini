@@ -1,16 +1,15 @@
 # memory.py
 import os
 from typing import List, Dict, Optional
-from langchain_google_genai import GoogleGenerativeAIEmbeddings 
+from langchain_openai import OpenAIEmbeddings
 from langchain.docstore.document import Document
 from langchain_community.vectorstores import FAISS
 
 INDEX_DIR = "faiss_index"
 
 def _get_embeddings():
-    """Inicializa embeddings do Gemini (usa GOOGLE_API_KEY do ambiente)."""
-    embedding_model_name = os.getenv("EMBEDDING_MODEL_NAME", "text-embedding-004")
-    return GoogleGenerativeAIEmbeddings(model=embedding_model_name)
+    """Inicializa embeddings do OpenAI (usa OPENAI_API_KEY do ambiente)."""
+    return OpenAIEmbeddings()
 
 def init_or_load_index() -> FAISS:
     """Carrega o índice FAISS se existir; caso contrário, cria um vazio."""

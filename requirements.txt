@@ -22,8 +22,9 @@ scikit-learn
 langchain
 langchain-community
 
-# Integracao com Google Gemini
-langchain-google-genai
+# Integracao com OpenAI
+langchain-openai
+openai
 
 # ---------------------------
 # Embeddings e memoria
@@ -39,6 +40,3 @@ python-dotenv
 openpyxl
 xlsxwriter
 reportlab
-
-
-langchain-google-vertexai

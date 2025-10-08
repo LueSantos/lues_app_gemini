@@ -1,13 +1,9 @@
 import os
 from typing import Tuple, List
 import pandas as pd
-from dotenv import load_dotenv
 
-load_dotenv() 
-
-from langchain_google_vertexai import ChatVertexAI
+from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
-os.system('clear')
 
 from tools import (
     plot_histogram,
@@ -19,9 +15,8 @@ from tools import (
 from memory import add_interaction_to_memory, query_memory
 
 # Configuração do modelo
-LLM_MODEL = os.getenv("LLM_MODEL", "gemini-pro")  # Ou outro modelo do Gemini
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")  # Certifique-se de ter a chave de API no seu ambiente
-llm = ChatVertexAI(model_name=LLM_MODEL, temperature=0)
+LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")
+llm = ChatOpenAI(model=LLM_MODEL, temperature=0)
 
 # Prompt para decidir qual ferramenta usar
 DECISION_PROMPT = """
@@ -119,6 +114,14 @@ def ask_agent(question: str, df: pd.DataFrame) -> Tuple[str, List[str]]:
             - O DataFrame está armazenado na variável `df`.
             - As colunas disponíveis no DataFrame são: {list(df.columns)}
 
+            Regras importantes:
+            - Use pandas diretamente para cálculos estatísticos (ex: df.mean(), df.std(), df.var()).
+            - Não use índices inexistentes em df.describe().
+            - Responda SOMENTE com código Python válido.
+            - Não escreva texto, nem comentários, nem explicações.
+            - O código deve terminar imprimindo a resposta
+              ou atribuindo a uma variável chamada result.
+            
              Restrições importantes:
             - Forneça APENAS o código Python. Não inclua explicações, comentários ou qualquer outro texto.
             - O código deve ser completo e auto-suficiente, incluindo todas as importações necessárias.
