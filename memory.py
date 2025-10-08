@@ -9,7 +9,8 @@ INDEX_DIR = "faiss_index"
 
 def _get_embeddings():
     """Inicializa embeddings do Gemini (usa GOOGLE_API_KEY do ambiente)."""
-    return GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    embedding_model_name = os.getenv("EMBEDDING_MODEL_NAME", "text-embedding-004")
+    return GoogleGenerativeAIEmbeddings(model=embedding_model_name)
 
 def init_or_load_index() -> FAISS:
     """Carrega o índice FAISS se existir; caso contrário, cria um vazio."""
